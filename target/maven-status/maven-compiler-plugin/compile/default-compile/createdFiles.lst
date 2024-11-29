@@ -1,0 +1,9 @@
+controller\UserRegistrationController.class
+controller\UserAuthenticationController.class
+dao\UserDAO.class
+model\AcademicProfessional.class
+dao\DatabaseConnection.class
+factory\UserFactory.class
+dao\UserDAOImpl.class
+model\AcademicInstitution.class
+model\User.class
