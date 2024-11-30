@@ -46,32 +46,51 @@
         <option value="AcademicProfessional">Academic Professional</option>
         <option value="AcademicInstitution">Academic Institution</option>
     </select>
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name" required>
+
+    <div id="nameField" style="display:none;">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+    </div>
+
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" required>
     <label for="password">Password:</label>
     <input type="password" name="password" id="password" required>
+
     <div id="extraFields"></div>
     <button type="submit">Register</button>
 </form>
+
 <script>
     document.getElementById("userType").addEventListener("change", function () {
         const extraFields = document.getElementById("extraFields");
-        extraFields.innerHTML = "";
+        const nameField = document.getElementById("nameField");
+
+        extraFields.innerHTML = ""; // Clear extra fields
 
         if (this.value === "AcademicProfessional") {
+            nameField.style.display = "block"; // Show nameField
+            nameField.querySelector("input").setAttribute("required", "required"); // Set name as required
+
             extraFields.innerHTML = `
-                    <label for="currentInstitution">Current Institution:</label>
-                    <input type="text" name="currentInstitution" id="currentInstitution" required>
-                    <label for="academicPosition">Academic Position:</label>
-                    <input type="text" name="academicPosition" id="academicPosition" required>
-                `;
+                <label for="currentInstitution">Current Institution:</label>
+                <input type="text" name="currentInstitution" id="currentInstitution" required>
+                <label for="academicPosition">Academic Position:</label>
+                <input type="text" name="academicPosition" id="academicPosition" required>
+            `;
         } else if (this.value === "AcademicInstitution") {
+            nameField.style.display = "none"; // Hide nameField
+            nameField.querySelector("input").removeAttribute("required"); // Remove required attribute from name
+
             extraFields.innerHTML = `
-                    <label for="institutionName">Institution Name:</label>
-                    <input type="text" name="institutionName" id="institutionName" required>
-                `;
+                <label for="institutionName">Institution Name:</label>
+                <select name="institutionName" id="institutionName" required>
+                    <option value="" disabled selected>Select Institution</option>
+                    <option value="University A">University A</option>
+                    <option value="University B">University B</option>
+                    <option value="University C">University C</option>
+                </select>
+            `;
         }
     });
 </script>

@@ -58,11 +58,15 @@
     <button type="submit">Login</button>
 </form>
 
-
 <div class="message" style="color: ${messageColor};">
     ${message}
 </div>
 
 <p>Don't have an account? <a href="jsp/Registration.jsp">Register here</a>.</p>
+
+<c:if test="${not empty sessionScope.user}">
+    <p>Already logged in? <a href="/Scholar_Social_Network_war/login?action=logout">Logout here</a>.</p>
+</c:if>
+
 </body>
 </html>
