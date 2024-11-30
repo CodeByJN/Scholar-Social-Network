@@ -6,9 +6,12 @@ import model.AcademicInstitution;
 import model.AcademicProfessional;
 import model.User;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -44,7 +47,7 @@ public class UserRegistrationController extends HttpServlet {
      * @throws IOException if an I/O error occurs during forwarding the request.
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html; charset=UTF-8");
 
         try {
@@ -54,13 +57,15 @@ public class UserRegistrationController extends HttpServlet {
 
             // Validate input and respond accordingly
             if (!isValidInput(userType, email, password, req)) {
-                sendResponse(resp, "Invalid input or missing required fields.", "red", "jsp/Registration.jsp");
+                req.setAttribute("errorMessage", "Invalid input or missing required fields.");
+                forwardToRegistrationPage(req, resp);
                 return;
             }
 
             // Check if the email is already registered
             if (userDAO.getUserByEmail(email) != null) {
-                sendResponse(resp, "Email is already registered.", "red", "jsp/Registration.jsp");
+                req.setAttribute("errorMessage", "Email is already registered. Please use a different email.");
+                forwardToRegistrationPage(req, resp);
                 return;
             }
 
@@ -68,13 +73,22 @@ public class UserRegistrationController extends HttpServlet {
             User user = createUser(userType, email, password, req);
             if (user != null) {
                 userDAO.insertUser(user);
-                sendResponse(resp, "Registration successful!", "green", "jsp/Login.jsp");
+
+                // Save user type and user info into the session
+                HttpSession session = req.getSession();
+                session.setAttribute("userType", userType);
+                session.setAttribute("user", user);
+
+                req.setAttribute("successMessage", "Registration successful! Redirecting to complete profile...");
+                req.getRequestDispatcher("jsp/CompleteProfile.jsp").forward(req, resp);
             } else {
-                sendResponse(resp, "Invalid user type.", "red", "jsp/Registration.jsp");
+                req.setAttribute("errorMessage", "Invalid user type.");
+                forwardToRegistrationPage(req, resp);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            sendResponse(resp, "A server error occurred: " + e.getMessage(), "red", "/jsp/Registration.jsp");
+            req.setAttribute("errorMessage", "A server error occurred: " + e.getMessage());
+            forwardToRegistrationPage(req, resp);
         }
     }
 
@@ -90,16 +104,16 @@ public class UserRegistrationController extends HttpServlet {
     private boolean isValidInput(String userType, String email, String password, HttpServletRequest req) {
         if ("AcademicProfessional".equalsIgnoreCase(userType)) {
             return userType != null && !userType.isEmpty()
-                    && req.getParameter("name") != null && !req.getParameter("name").isEmpty()  // Validate name parameter
+                    && req.getParameter("name") != null && !req.getParameter("name").isEmpty()
                     && isValidEmail(email)
                     && isValidPassword(password)
-                    && req.getParameter("currentInstitution") != null
-                    && req.getParameter("academicPosition") != null;
+                    && req.getParameter("currentInstitution") != null && !req.getParameter("currentInstitution").isEmpty()
+                    && req.getParameter("academicPosition") != null && !req.getParameter("academicPosition").isEmpty();
         } else if ("AcademicInstitution".equalsIgnoreCase(userType)) {
             return userType != null && !userType.isEmpty()
                     && isValidEmail(email)
                     && isValidPassword(password)
-                    && req.getParameter("institutionName") != null;
+                    && req.getParameter("institutionName") != null && !req.getParameter("institutionName").isEmpty();
         }
         return false;
     }
@@ -137,7 +151,7 @@ public class UserRegistrationController extends HttpServlet {
      */
     private User createUser(String userType, String email, String password, HttpServletRequest req) {
         if ("AcademicProfessional".equalsIgnoreCase(userType)) {
-            String name = req.getParameter("name");  // Get name parameter
+            String name = req.getParameter("name");
             String currentInstitution = req.getParameter("currentInstitution");
             String academicPosition = req.getParameter("academicPosition");
             return new AcademicProfessional(name, email, password, currentInstitution, academicPosition);
@@ -149,22 +163,15 @@ public class UserRegistrationController extends HttpServlet {
     }
 
     /**
-     * Sends an HTML response to the client with a message, color, and redirect link.
+     * Forwards the request back to the registration page.
      *
-     * @param resp        the HttpServletResponse object to send the response.
-     * @param message     the message to display.
-     * @param color       the color of the message.
-     * @param redirectUrl the URL to which the client should be redirected.
-     * @throws IOException if an I/O error occurs.
+     * @param req  the HttpServletRequest object.
+     * @param resp the HttpServletResponse object.
+     * @throws ServletException if a servlet-specific error occurs.
+     * @throws IOException      if an I/O error occurs.
      */
-    private void sendResponse(HttpServletResponse resp, String message, String color, String redirectUrl) throws IOException {
-        resp.getWriter().write(String.format(
-                "<div style='margin:50px auto; width:400px; text-align:center;'>"
-                        + "<h3 style='color:%s;'>%s</h3>"
-                        + "<a href='%s'>If not redirected, click here</a>"
-                        + "</div>"
-                        + "<script>setTimeout(function(){ window.location.href='%s'; }, 3000);</script>",
-                color, message, redirectUrl, redirectUrl
-        ));
+    private void forwardToRegistrationPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/Registration.jsp");
+        dispatcher.forward(req, resp);
     }
 }

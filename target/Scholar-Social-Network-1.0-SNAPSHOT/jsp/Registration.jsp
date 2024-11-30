@@ -35,11 +35,20 @@
         button:hover {
             background-color: #45a049;
         }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 <h2>User Registration</h2>
-<form action="/Scholar_Social_Network_war/register" method="post">
+
+<c:if test="${not empty errorMessage}">
+    <div class="error-message">${errorMessage}</div>
+</c:if>
+
+<form action="${pageContext.request.contextPath}/register" method="post" onsubmit="return redirectAfterSubmit()">
     <label for="userType">User Type:</label>
     <select name="userType" id="userType" required>
         <option value="" disabled selected>Select User Type</option>
@@ -62,6 +71,15 @@
 </form>
 
 <script>
+    // Redirects to CompleteProfile.jsp page after form submission
+    function redirectAfterSubmit() {
+        setTimeout(function () {
+            window.location.href = "${pageContext.request.contextPath}/jsp/CompleteProfile.jsp";
+        }, 3000); // Redirect after 3 seconds
+        return true;
+    }
+
+    // Shows additional fields based on user type selection
     document.getElementById("userType").addEventListener("change", function () {
         const extraFields = document.getElementById("extraFields");
         const nameField = document.getElementById("nameField");

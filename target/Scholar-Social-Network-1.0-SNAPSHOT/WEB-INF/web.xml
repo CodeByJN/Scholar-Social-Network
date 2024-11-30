@@ -23,6 +23,17 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <!-- Profile Servlet -->
+    <servlet>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-class>controller.ProfileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfileServlet</servlet-name>
+        <url-pattern>/profile/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Welcome File -->
     <welcome-file-list>
         <welcome-file>jsp/Login.jsp</welcome-file>
     </welcome-file-list>

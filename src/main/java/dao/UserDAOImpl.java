@@ -3,6 +3,7 @@ package dao;
 import model.User;
 import model.AcademicProfessional;
 import model.AcademicInstitution;
+import utils.DatabaseConnection;
 
 import java.sql.*;
 
@@ -43,6 +44,7 @@ public class UserDAOImpl implements UserDAO {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            // Set parameters based on user type
             if (user instanceof AcademicProfessional) {
                 stmt.setString(1, ((AcademicProfessional) user).getName());
                 stmt.setString(2, user.getEmail());
@@ -71,17 +73,20 @@ public class UserDAOImpl implements UserDAO {
      * Retrieves a user by their email address from the database.
      *
      * @param email the email address of the user to retrieve.
-     * @return a User object if a user with the specified email exists, otherwise null.
+     * @return a {@link User} object if a user with the specified email exists, otherwise {@code null}.
      */
     @Override
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM Users WHERE email = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 String userType = rs.getString("userType");
+
+                // Create an instance of AcademicProfessional or AcademicInstitution based on userType
                 if ("AcademicProfessional".equalsIgnoreCase(userType)) {
                     return new AcademicProfessional(
                             rs.getString("name"),

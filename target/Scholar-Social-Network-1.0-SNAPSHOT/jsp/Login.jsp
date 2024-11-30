@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +51,7 @@
 </head>
 <body>
 <h2>User Login</h2>
-<form action="/Scholar_Social_Network_war/login" method="post">
+<form action="${pageContext.request.contextPath}/login" method="post">
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" required>
     <label for="password">Password:</label>
@@ -62,10 +63,11 @@
     ${message}
 </div>
 
-<p>Don't have an account? <a href="jsp/Registration.jsp">Register here</a>.</p>
+<p>Don't have an account? <a href="${pageContext.request.contextPath}/jsp/Registration.jsp">Register here</a>.</p>
 
 <c:if test="${not empty sessionScope.user}">
-    <p>Already logged in? <a href="/Scholar_Social_Network_war/login?action=logout">Logout here</a>.</p>
+    <p>Already logged in? <a href="${pageContext.request.contextPath}/login?action=logout">Logout here</a>.</p>
+    <p><a href="${pageContext.request.contextPath}/profile">Go to your profile</a></p>
 </c:if>
 
 </body>
