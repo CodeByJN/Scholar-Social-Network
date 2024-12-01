@@ -1,0 +1,6 @@
+dao\ProfileDAOImplTest.class
+dao\UserDAOImplTest.class
+service\ProfileServiceTest.class
+controller\ProfileControllerTest.class
+controller\UserAuthenticationControllerTest.class
+controller\UserRegistrationControllerTest.class
