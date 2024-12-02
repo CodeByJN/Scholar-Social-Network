@@ -4,28 +4,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Utility class for managing database connections to a PostgreSQL database.
- */
 public class DatabaseConnection {
+    private static final String URL = "jdbc:postgresql://localhost:5432/AEP";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "7347";
 
-    // Static initializer block to load the PostgreSQL JDBC Driver
-    static {
+    public static Connection getConnection() throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
             System.out.println("PostgreSQL JDBC Driver loaded successfully!");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("PostgreSQL JDBC Driver not found. Ensure the dependency is added to the project.", e);
+            throw new RuntimeException("PostgreSQL JDBC Driver not found. Add the dependency to your project.", e);
         }
-    }
 
-    /**
-     * Establishes and returns a connection to the PostgreSQL database.
-     *
-     * @return a Connection object for the PostgreSQL database.
-     * @throws SQLException if a database access error occurs or the connection URL is incorrect.
-     */
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/AEP", "postgres", "3578");
+        Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        System.out.println("Database connection established successfully!");
+        return connection;
     }
 }
