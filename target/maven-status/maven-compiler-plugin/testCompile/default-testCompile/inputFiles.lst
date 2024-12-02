@@ -1,6 +1,2 @@
-D:\cp\CST8288_code\Scholar-Social-Network\src\test\java\controller\ProfileControllerTest.java
-D:\cp\CST8288_code\Scholar-Social-Network\src\test\java\dao\UserDAOImplTest.java
-D:\cp\CST8288_code\Scholar-Social-Network\src\test\java\service\ProfileServiceTest.java
-D:\cp\CST8288_code\Scholar-Social-Network\src\test\java\controller\UserAuthenticationControllerTest.java
-D:\cp\CST8288_code\Scholar-Social-Network\src\test\java\controller\UserRegistrationControllerTest.java
-D:\cp\CST8288_code\Scholar-Social-Network\src\test\java\dao\ProfileDAOImplTest.java
+/Users/jordanearle/eclipse-workspace/Scholar-Social-Network/src/test/java/utils/DatabaseConnectionTest.java
+/Users/jordanearle/eclipse-workspace/Scholar-Social-Network/src/test/java/dao/CourseRequestDAOTest.java
