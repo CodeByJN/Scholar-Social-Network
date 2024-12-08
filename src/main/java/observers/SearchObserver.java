@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package observers;
-import models.Course;
+import model.Course;
 import java.util.ArrayList;
 import java.util.List;
 /**

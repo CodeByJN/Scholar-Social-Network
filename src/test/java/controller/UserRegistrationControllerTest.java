@@ -1,7 +1,6 @@
 package controller;
 
 import dao.UserDAO;
-import model.AcademicInstitution;
 import model.AcademicProfessional;
 import model.User;
 import org.junit.jupiter.api.BeforeEach;

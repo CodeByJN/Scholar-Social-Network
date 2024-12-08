@@ -2,7 +2,7 @@ package dao;
 
 import model.UserProfile;
 import org.junit.jupiter.api.*;
-import utils.DatabaseConnection;
+import util.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

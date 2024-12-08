@@ -3,7 +3,7 @@ package dao;
 import model.User;
 import model.AcademicProfessional;
 import model.AcademicInstitution;
-import utils.DatabaseConnection;
+import util.DatabaseConnection;
 
 import java.sql.*;
 
