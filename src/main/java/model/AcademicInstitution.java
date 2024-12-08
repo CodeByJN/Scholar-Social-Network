@@ -28,9 +28,11 @@ public class AcademicInstitution extends User {
      *
      * @return The name of the institution.
      */
-    public String getInstitutionName() {
+    @Override
+    public String getName() {
         return institutionName;
     }
+
 
     /**
      * Displays the user role for this user type.
