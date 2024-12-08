@@ -10,10 +10,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+/**
+ * Utility class for managing database connections using HikariCP.
+ * This class provides methods to initialize the database, obtain connections,
+ * and manage connection pooling.
+ */
 public class DatabaseConnection {
 
     private static HikariDataSource dataSource;
 
+    // Static block for initializing the data source
     static {
         try {
             Properties props = new Properties();
@@ -46,20 +52,41 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Obtains a connection from the connection pool.
+     *
+     * @return a {@link Connection} object from the pool.
+     * @throws SQLException if a database access error occurs.
+     */
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
+    /**
+     * Closes the data source, releasing all resources held by the connection pool.
+     * Should be called when the application shuts down.
+     */
     public static void closeDataSource() {
         if (dataSource != null) {
             dataSource.close();
         }
     }
 
+    /**
+     * Retrieves the initialized {@link DataSource}.
+     *
+     * @return the data source used for managing connections.
+     */
     public static DataSource lookupDataSource() {
         return dataSource;
     }
 
+    /**
+     * Initializes the database schema by creating necessary tables if they do not exist.
+     * This includes tables for Users, Courses, Requests, and Notifications.
+     *
+     * This method is idempotent and will not overwrite existing tables.
+     */
     public static void initializeDatabase() {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {

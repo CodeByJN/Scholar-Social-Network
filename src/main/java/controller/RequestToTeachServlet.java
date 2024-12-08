@@ -29,15 +29,10 @@ public class RequestToTeachServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-
         DataSource dataSource = DatabaseConnection.lookupDataSource();
-
         RequestDAO requestDAO = new RequestDAOImpl(dataSource);
-
         // Initialize services
         requestService = new RequestService(requestDAO);
-
-
         NotificationDAO notificationDAO = new NotificationDAOImpl(dataSource);
         notificationService = new NotificationService(notificationDAO);
 
