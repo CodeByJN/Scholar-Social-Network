@@ -42,9 +42,11 @@ public class AcademicProfessional extends User {
      *
      * @return The name of the academic professional.
      */
+    @Override
     public String getName() {
         return name;
     }
+
 
     /**
      * Gets the current institution where the academic professional is affiliated.

@@ -99,7 +99,7 @@ public class UserDAOImplTest {
 
         // Further verification of specific AcademicInstitution attributes
         AcademicInstitution institution = (AcademicInstitution) fetchedUser;
-        assertEquals("Test Institution Name", institution.getInstitutionName()); // Verify institution name
+        assertEquals("Test Institution Name", institution.getName()); // Verify institution name
     }
 
     /**

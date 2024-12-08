@@ -60,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
                 stmt.setString(4, user.getUserType());
                 stmt.setNull(5, Types.VARCHAR); // CurrentInstitution is null for AcademicInstitution
                 stmt.setNull(6, Types.VARCHAR); // AcademicPosition is null for AcademicInstitution
-                stmt.setString(7, ((AcademicInstitution) user).getInstitutionName());
+                stmt.setString(7, ((AcademicInstitution) user).getName());
             }
 
             stmt.executeUpdate();
