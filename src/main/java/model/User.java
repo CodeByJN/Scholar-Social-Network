@@ -75,4 +75,6 @@ public abstract class User {
         System.out.println("User Email: " + email);
         displayUserRole();
     }
+
+    public abstract String getName();
 }

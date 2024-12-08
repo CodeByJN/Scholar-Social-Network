@@ -45,30 +45,25 @@ public class UserAuthenticationController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; charset=UTF-8");
-
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
+        User user = userDAO.getUserByEmail(email);
+
+        if (user != null && user.getPassword().equals(password)) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", user);
+            session.setAttribute("userEmail", user.getEmail());
+            resp.sendRedirect(req.getContextPath() + "/jsp/Dashboard.jsp");
+        } else {
             req.setAttribute("message", "Invalid email or password.");
             req.setAttribute("messageColor", "red");
-        } else {
-            User user = userDAO.getUserByEmail(email);
-            if (user == null || !password.equals(user.getPassword())) {
-                req.setAttribute("message", "Authentication failed.");
-                req.setAttribute("messageColor", "red");
-            } else {
-                HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                req.setAttribute("message", "Login successful!");
-                req.setAttribute("messageColor", "green");
-            }
+            req.getRequestDispatcher("/jsp/Login.jsp").forward(req, resp);
         }
 
-        req.getRequestDispatcher("jsp/Login.jsp").forward(req, resp);
     }
+
+
 
     /**
      * Handles the HTTP GET request for user logout.

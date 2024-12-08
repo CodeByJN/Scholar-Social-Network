@@ -1,0 +1,336 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    color: #212529;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styles */
+.container {
+    margin: 0 auto;
+    max-width: 80%;
+    padding: 20px;
+    text-align: left;
+    margin-top: 80px;
+}
+
+/* Header */
+h1, h2, h3 {
+    font-weight: 700;
+    color: #343a40;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #343a40;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.navbar button {
+    margin: 0 10px;
+    padding: 10px 15px;
+    background-color: #495057;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+.navbar button:hover {
+    background-color: #6c757d;
+    transform: scale(1.05);
+}
+
+.navbar button.logout {
+    background-color: #dc3545;
+}
+
+.navbar button.logout:hover {
+    background-color: #c82333;
+}
+
+/* Buttons */
+button {
+    background-color: #495057;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #6c757d;
+    transform: scale(1.05);
+}
+
+button.logout {
+    background-color: #dc3545;
+}
+
+button.logout:hover {
+    background-color: #c82333;
+}
+
+/* Form Inputs */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff;
+    font-size: 16px;
+}
+
+/* Form Labels */
+label {
+    font-weight: bold;
+    color: #495057;
+}
+
+/* Login Container */
+.login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15%;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.login-form label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.login-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.login-form button {
+    padding: 10px 0;
+    background-color: #495057;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+    background-color: #6c757d;
+}
+
+.login-container a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-container a:hover {
+    color: #0056b3;
+}
+
+/* Message Styles */
+.message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #d9534f;
+}
+
+/* Footer */
+footer {
+    background-color: #495057;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 5px;
+}
+
+.read-only-field {
+    display: block;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+/* Registration Form Styles */
+.registration-container {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Input and Select Fields */
+.registration-container input,
+.registration-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    font-size: 16px;
+}
+
+/* Buttons */
+.registration-container button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #495057;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.registration-container button:hover {
+    background-color: #6c757d;
+}
+
+/* Error Message */
+.error-message {
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Extra Fields Style */
+#extraFields label,
+#extraFields input,
+#extraFields select {
+    margin-top: 10px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #495057;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #6c757d;
+}
+
+.back-link {
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.back-link:hover {
+    color: #0056b3;
+}
+
+/* Dashboard Welcome Message */
+.welcome-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    margin-top: 0;
+}
+
+.welcome-message {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 50px auto;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
