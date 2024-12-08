@@ -1,3 +1,16 @@
+/**
+ * Implementation of the NotificationDAO interface that provides methods for
+ * inserting and retrieving notifications from a data source.
+ *
+ * <p>This class uses a JDBC DataSource for database operations and
+ * interacts with a Notifications table that includes fields for recipient_id,
+ * message, created_at, and is_read.</p>
+ *
+ * <p>All database operations throw a DAOException on failure.</p>
+ *
+ * @author Jordan Earle
+ */
+
 package dao.impl;
 
 import dao.interfaces.DAOException;
@@ -13,11 +26,22 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     private DataSource dataSource;
 
-    public NotificationDAOImpl(DataSource dataSource){
+    /**
+     * Constructs a NotificationDAOImpl with the specified DataSource.
+     *
+     * @param dataSource the DataSource used for obtaining database connections
+     */
+    public NotificationDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-
+    /**
+     * Inserts a new notification record into the database.
+     * Upon successful insertion, the notification's ID is updated with the generated key.
+     *
+     * @param notification the Notification object to be inserted
+     * @throws DAOException if a database access error occurs or the operation fails
+     */
     @Override
     public void insertNotification(Notification notification) throws DAOException {
         String sql = "INSERT INTO Notifications (recipient_id, message, created_at, is_read) VALUES (?, ?, ?, ?)";
@@ -37,54 +61,64 @@ public class NotificationDAOImpl implements NotificationDAO {
                 if (generatedKeys.next()) {
                     notification.setId(generatedKeys.getInt(1));
                 }
-            } catch(SQLException e){
-
+            } catch (SQLException e) {
                 throw new DAOException("Error adding notification", e);
             }
+
         } catch (SQLException e) {
             throw new DAOException("Error adding notification", e);
         }
     }
 
+    /**
+     * Retrieves notifications for a specific user. If unreadOnly is true,
+     * only unread notifications are returned. Otherwise, only read notifications are returned.
+     *
+     * @param userId     the ID of the user for whom to retrieve notifications
+     * @param unreadOnly if true, retrieve only unread notifications; otherwise, retrieve only read notifications
+     * @return a list of Notification objects for the specified user
+     * @throws DAOException if a database access error occurs or the operation fails
+     */
     @Override
     public List<Notification> getNotificationsByUserId(int userId, boolean unreadOnly) throws DAOException {
         List<Notification> notifications = new ArrayList<>();
-        String sql = unreadOnly ? "SELECT * FROM notifications WHERE recipient_id = ? AND is_read = false ORDER BY created_at DESC"
-            : "SELECT * FROM notifications WHERE recipient_id = ? AND is_read = true ORDER BY created_at DESC";
+        String sql = unreadOnly
+                ? "SELECT * FROM notifications WHERE recipient_id = ? AND is_read = false ORDER BY created_at DESC"
+                : "SELECT * FROM notifications WHERE recipient_id = ? AND is_read = true ORDER BY created_at DESC";
 
-        try( Connection conn = dataSource.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, userId);
 
-            try(ResultSet rs = pstmt.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
                     Notification notification = new Notification(
-                        rs.getInt("recipient_id"),
-                        rs.getString("message")
+                            rs.getInt("recipient_id"),
+                            rs.getString("message")
                     );
-
                     notification.setId(rs.getInt("id"));
-                    if(!rs.getBoolean("is_read")){
+                    if (!rs.getBoolean("is_read")) {
                         notification.markAsRead();
                     }
 
                     notifications.add(notification);
-
-
-
                 }
-            }
-            catch(SQLException e){
-
+            } catch (SQLException e) {
                 throw new DAOException("Failed to get notifications", e);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Error Retrieving notifications", e);
         }
-        return notifications ;
+        return notifications;
     }
+
+    /**
+     * Marks a specific notification as read in the database.
+     *
+     * @param notificationId the ID of the notification to mark as read
+     * @throws DAOException if a database access error occurs or the operation fails
+     */
     @Override
     public void markNotificationAsRead(int notificationId) throws DAOException {
         String sql = "UPDATE Notifications SET is_read = true WHERE id = ?";
@@ -98,42 +132,4 @@ public class NotificationDAOImpl implements NotificationDAO {
             throw new DAOException("Error marking notification as read", e);
         }
     }
-//    public List<Notification> getNotificationsByRecipient(int recipientId, boolean unreadOnly) throws DAOException {
-//        List<Notification> notifications = new ArrayList<>();
-//        String sql = unreadOnly ? "SELECT * FROM Notifications WHERE recipientId = ? AND isRead = false ORDER BY timestamp DESC"
-//            : "SELECT * FROM Notifications WHERE recipientId = ? ORDER BY timestamp DESC";
-//
-//        try( Connection conn = dataSource.getConnection();
-//             PreparedStatement pstmt = conn.prepareStatement(sql)){
-//
-//            pstmt.setInt(1, recipientId);
-//
-//            try(ResultSet rs = pstmt.executeQuery()){
-//                while (rs.next()){
-//                    Notification notification = new Notification(
-//                        rs.getInt("recipientId"),
-//                        rs.getString("message")
-//                    );
-//
-//                    notification.setId(rs.getInt("id"));
-//                    if(!rs.getBoolean("isRead")){
-//                        notification.markAsRead();
-//                    }
-//
-//                    notifications.add(notification);
-//
-//
-//
-//                }
-//            }
-//            catch(SQLException e){
-//
-//                throw new DAOException("Failed to get notifications", e);
-//            }
-//        }
-//        catch(SQLException e){
-//            throw new DAOException("Error Retrieving notifications", e);
-//        }
-//        return notifications ;
-//    }
 }

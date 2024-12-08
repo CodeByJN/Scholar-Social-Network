@@ -1,3 +1,14 @@
+/**
+ * A servlet that manages the display and handling of user notifications.
+ * It retrieves both unread and read notifications for a user, displays them,
+ * and provides functionality to mark all notifications as read.
+ *
+ * <p>Currently, the user ID is hardcoded for demonstration purposes. In a real application,
+ * the user ID would be obtained from the session after user authentication.</p>
+ *
+ * @author Jordan Earle
+ */
+
 package controller;
 
 import dao.impl.NotificationDAOImpl;
@@ -21,50 +32,63 @@ import java.util.stream.Collectors;
 public class NotificationsServlet extends HttpServlet {
     private NotificationService notificationService;
 
+    /**
+     * Initializes the servlet by setting up the required NotificationService 
+     * to handle notification-related operations.
+     *
+     * @throws ServletException if initialization fails
+     */
     @Override
     public void init() throws ServletException {
-
         DataSource dataSource = DatabaseConnection.lookupDataSource();
-
         NotificationDAO notificationDAO = new NotificationDAOImpl(dataSource);
         notificationService = new NotificationService(notificationDAO);
     }
 
+    /**
+     * Handles the HTTP GET request by retrieving unread and a limited set of read 
+     * notifications for the user, then forwarding them to the Notifications JSP for display.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made
+     * @param response the HttpServletResponse object that contains the response the servlet returns
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an input or output error is detected
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Get current user from session
-            //User currentUser = (User) request.getSession().getAttribute("currentUser");
+            // For demonstration, using userId = 1
+            List<Notification> unreadNotifications = notificationService.getNotificationsForUser(1, true);
 
-//            // Fetch unread notifications
-            List<Notification> unreadNotifications = notificationService
-                .getNotificationsForUser(1, true);
-
-            // Fetch read notifications (limited to last 20)
-            List<Notification> readNotifications = notificationService
-                .getNotificationsForUser(1, false)
-                .stream()
-                .limit(20)
-                .collect(Collectors.toList());
+            List<Notification> readNotifications = notificationService.getNotificationsForUser(1, false)
+                    .stream()
+                    .limit(20)
+                    .collect(Collectors.toList());
 
             request.setAttribute("unreadNotifications", unreadNotifications);
             request.setAttribute("readNotifications", readNotifications);
 
             request.getRequestDispatcher("/WEB-INF/views/Notifications.jsp").forward(request, response);
         } catch (Exception e) {
-            // Handle errors
-            request.setAttribute("errorMessage",URLEncoder.encode(e.getMessage(), "UTF-8"));
-//            response.sendRedirect("error?message=" + URLEncoder.encode(e.getMessage(), "UTF-8"));
-             request.getRequestDispatcher("/WEB-INF/views/Notifications.jsp").forward(request, response);
+            request.setAttribute("errorMessage", URLEncoder.encode(e.getMessage(), "UTF-8"));
+            request.getRequestDispatcher("/WEB-INF/views/Notifications.jsp").forward(request, response);
         }
     }
 
+    /**
+     * Handles the HTTP POST request to mark all notifications as read for the user.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an input or output error is detected
+     */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Handle marking all notifications as read
         try {
-            int userId = 1; // change this to get the current user in the session as shown below
-            //User currentUser = (User) request.getSession().getAttribute("currentUser");
+            int userId = 1; // In a real scenario, derive from the session's current user
             notificationService.markAllNotificationsAsRead(userId);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
