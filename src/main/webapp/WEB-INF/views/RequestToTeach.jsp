@@ -39,7 +39,7 @@
                     <option value="">Choose a Course</option>
                     <c:forEach var="course" items="${availableCourses}">
                         <option value="${course.getCourseId()}">
-                            ${course.getCourseTitle()} (${course.getCourseCode()}) - ${course.getTerm()}
+                            ${course.getTitle()} (${course.getCode()}) - ${course.getTerm()}
                         </option>
                     </c:forEach>
                 </select>

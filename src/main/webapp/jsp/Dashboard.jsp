@@ -5,6 +5,7 @@
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+
 </head>
 <body>
 <div class="welcome-message-container">

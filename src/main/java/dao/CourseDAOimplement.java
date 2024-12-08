@@ -42,7 +42,7 @@ public class CourseDAOimplement implements CourseDAO {
 
     @Override
     public boolean insertCourse(Course course) {
-        String query = "INSERT INTO courses (title, code, term) VALUES (?, ?, ?)";
+        String query = "INSERT INTO courses (id, title, code, term) VALUES (?, ?, ?, ?)";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 

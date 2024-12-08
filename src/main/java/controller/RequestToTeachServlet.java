@@ -29,10 +29,15 @@ public class RequestToTeachServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+
         DataSource dataSource = DatabaseConnection.lookupDataSource();
+
         RequestDAO requestDAO = new RequestDAOImpl(dataSource);
+
         // Initialize services
         requestService = new RequestService(requestDAO);
+
+
         NotificationDAO notificationDAO = new NotificationDAOImpl(dataSource);
         notificationService = new NotificationService(notificationDAO);
 
@@ -43,14 +48,14 @@ public class RequestToTeachServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Fetch available courses (Should be edited to use the course request service)
-       // List<Course> availableCourses = List.of(
-              //  new Course(1L, "Introduction to Computer Science", "CS101", "Fall 2024"),
-              //  new Course(2L, "Data Structures and Algorithms", "CS202", "Spring 2024"),
-              //  new Course(3L, "Web Development Fundamentals", "WEB301", "Summer 2024"),
-              //  new Course(4L, "Database Management Systems", "CS305", "Fall 2024"),
-               // new Course(5L, "Software Engineering", "CS401", "Spring 2025")
-         //   );
-        //request.setAttribute("availableCourses", availableCourses);
+        List<Course> availableCourses = List.of(
+                new Course( "Introduction to Computer Science", "CS101", "Fall 2024"),
+                new Course( "Data Structures and Algorithms", "CS202", "Spring 2024"),
+                new Course( "Web Development Fundamentals", "WEB301", "Summer 2024"),
+                new Course( "Database Management Systems", "CS305", "Fall 2024"),
+                new Course( "Software Engineering", "CS401", "Spring 2025")
+            );
+        request.setAttribute("availableCourses", availableCourses);
 
         request.getRequestDispatcher("/WEB-INF/views/RequestToTeach.jsp").forward(request, response);
     }
