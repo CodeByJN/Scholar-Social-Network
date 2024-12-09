@@ -1,3 +1,9 @@
+/**
+ * course: CST8288
+ * name: Ningyi Wang
+ * Student ID: 041120798
+ */
+
 package controller;
 
 import javax.servlet.annotation.WebServlet;
