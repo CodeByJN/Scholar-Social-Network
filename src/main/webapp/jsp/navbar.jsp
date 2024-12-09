@@ -1,3 +1,8 @@
+<%--
+  course: CST8288
+  name: Ningyi Wang
+  Student ID: 041120798
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div class="navbar">
     <button onclick="window.location.href='${pageContext.request.contextPath}/profile/profile'">Profile Management</button>

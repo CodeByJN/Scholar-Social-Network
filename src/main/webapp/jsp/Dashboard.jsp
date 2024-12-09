@@ -1,3 +1,8 @@
+<%--
+  course: CST8288
+  name: Ningyi Wang
+  Student ID: 041120798
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <%@ include file="navbar.jsp" %>

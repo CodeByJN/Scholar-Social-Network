@@ -1,4 +1,10 @@
-CREATE TABLE Users (
+/**
+ * course: CST8288
+ * name: Ningyi Wang
+ * Student ID: 041120798
+ */
+
+ CREATE TABLE Users (
                        id SERIAL PRIMARY KEY,
                        email VARCHAR(255) UNIQUE NOT NULL,
                        password VARCHAR(255) NOT NULL,

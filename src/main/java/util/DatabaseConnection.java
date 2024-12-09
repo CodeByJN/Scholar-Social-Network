@@ -1,3 +1,8 @@
+/**
+ * course: CST8288
+ * name: Ningyi Wang
+ * Student ID: 041120798
+ */
 package util;
 
 import com.zaxxer.hikari.HikariConfig;

@@ -1,5 +1,10 @@
 package controller;
 
+/**
+ * course: CST8288
+ * name: Ningyi Wang
+ * Student ID: 041120798
+ */
 import dao.UserDAO;
 import dao.UserDAOImpl;
 import model.AcademicInstitution;
